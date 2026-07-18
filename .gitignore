@@ -1,0 +1,19 @@
+# Arduino build files
+*.hex
+*.elf
+
+# Arduino IDE
+*.tmp
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# VS Code
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
