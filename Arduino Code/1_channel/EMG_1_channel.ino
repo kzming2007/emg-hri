@@ -48,7 +48,16 @@ void loop() {
 
     // TIMING_DEBUG가 1일 경우 처리된 근전도 값을 시리얼 모니터로 전송
     if (TIMING_DEBUG) {
-        Serial.println(envelope); 
+        // 원본 신호
+        Serial.print(Value);
+        Serial.print(",");
+
+        // 필터링된 신호
+        Serial.print(DataAfterFilter);
+        Serial.print(",");
+
+        // Envelope
+        Serial.println(envelope);
     }
 
     // 다음 측정까지 대기 (1000Hz를 맞추기 위해 약 500 마이크로초 쉼)
