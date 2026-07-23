@@ -1,0 +1,20 @@
+2026-07-23 17:08:10,682 [INFO] __main__: EMG Data Collector 시작
+2026-07-23 17:10:01,470 [ERROR] comm.serial_manager: 포트 연결 실패 (COM3): could not open port 'COM3': PermissionError(13, '액세스가 거부되었습니다.', None, 5)
+2026-07-23 17:10:03,684 [ERROR] comm.serial_manager: 포트 연결 실패 (COM3): could not open port 'COM3': PermissionError(13, '액세스가 거부되었습니다.', None, 5)
+2026-07-23 17:10:08,629 [ERROR] comm.serial_manager: 포트 연결 실패 (COM3): could not open port 'COM3': PermissionError(13, '액세스가 거부되었습니다.', None, 5)
+2026-07-23 17:10:46,007 [INFO] comm.serial_manager: 시리얼 포트 연결 성공: COM3 @ 115200bps
+2026-07-23 17:10:46,010 [WARNING] comm.serial_manager: 데이터 변환 오류 (숫자가 아님): 268K&,-32,1024
+2026-07-23 17:10:47,520 [WARNING] comm.serial_manager: 데이터 포맷 오류 (요소 개수 불일치): 268K&
+2026-07-23 17:11:31,326 [INFO] graphs.realtime_plot: 플롯 데이터가 초기화되었습니다.
+2026-07-23 17:12:10,445 [INFO] graphs.realtime_plot: 플롯 데이터가 초기화되었습니다.
+2026-07-23 17:12:10,855 [INFO] graphs.realtime_plot: 플롯 데이터가 초기화되었습니다.
+2026-07-23 17:12:13,913 [INFO] recorder.recorder: 데이터 기록을 시작합니다: 근육=FDS, 동작=Relax, 시도=1
+2026-07-23 17:12:29,009 [INFO] recorder.recorder: 데이터 기록을 중지했습니다.
+2026-07-23 17:12:29,045 [INFO] recorder.recorder: 총 9858개의 데이터 포인트를 D:\Arduino EMG\emg data\FDS\Trial001\FDS_Relax_Trial001.csv에 저장했습니다.
+2026-07-23 17:12:29,056 [INFO] analysis.analyzer: FDS_Relax_Trial001 분석을 시작합니다.
+2026-07-23 17:12:29,060 [INFO] analysis.analyzer: FDS_Relax_Trial001 분석이 완료되었습니다.
+2026-07-23 17:12:29,080 [INFO] analysis.analyzer: 요약 파일이 저장되었습니다: D:\Arduino EMG\emg data\FDS\Trial001\FDS_Relax_Trial001_summary.txt
+2026-07-23 17:12:29,735 [INFO] analysis.analyzer: FDS_Relax_Trial001 분석을 시작합니다.
+2026-07-23 17:12:29,738 [INFO] analysis.analyzer: FDS_Relax_Trial001 분석이 완료되었습니다.
+2026-07-23 17:12:29,977 [INFO] analysis.analyzer: FDS_Relax_Trial001 관련 그래프가 모두 저장되었습니다.
+2026-07-23 17:15:44,762 [INFO] comm.serial_manager: 시리얼 연결 해제 완료
