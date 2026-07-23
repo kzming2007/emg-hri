@@ -87,10 +87,11 @@ class RealtimePlot(QWidget):
         self.plot_widget.setClipToView(True)
         self.plot_widget.setDownsampling(auto=True, mode='peak')
         
-        # 자동 범위 조정 비활성화 및 수동 설정 (초기)
-        # X축은 -5 ~ 0 초로 설정 (최근 5초를 보여주기 위해)
+        # 뷰 설정
         self.plot_widget.setXRange(-5.0, 0.0, padding=0)
-        self.plot_widget.disableAutoRange()
+        # Y축은 데이터에 맞게 자동으로 스케일링되도록 활성화
+        self.plot_widget.enableAutoRange(axis='y')
+        self.plot_widget.setAutoVisible(y=True)
         
         # 펜 캐싱 및 곡선 생성
         pen_raw = pg.mkPen(color='#e06c75', width=1.5)

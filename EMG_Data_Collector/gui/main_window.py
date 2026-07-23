@@ -26,7 +26,7 @@ from comm.serial_manager import SerialManager
 
 class AnalysisWorker(QObject):
     """백그라운드에서 데이터를 분석하기 위한 워커 클래스"""
-    finished = Signal(dict, Path)
+    finished = Signal(dict, object)
     error = Signal(str)
 
     def __init__(self, data_frame, save_dir, muscle, motion, trial):
@@ -561,7 +561,7 @@ class MainWindow(QMainWindow):
         trial = self.trial_spin.value()
         trial_save_dir = self.recorder.get_save_path()
         
-        # Run analysis using QThread and AnalysisWorker to avoid GUI freezes
+        # Run analysis in background thread using QThread (GUI Safe)
         self.analysis_thread = QThread()
         self.analysis_worker = AnalysisWorker(data, trial_save_dir, muscle, motion, trial)
         self.analysis_worker.moveToThread(self.analysis_thread)
@@ -570,16 +570,14 @@ class MainWindow(QMainWindow):
         self.analysis_worker.finished.connect(self._on_analysis_finished)
         self.analysis_worker.error.connect(self._on_analysis_error)
         
+        # Memory cleanup
         self.analysis_worker.finished.connect(self.analysis_thread.quit)
-        self.analysis_worker.error.connect(self.analysis_thread.quit)
-        
         self.analysis_worker.finished.connect(self.analysis_worker.deleteLater)
+        self.analysis_worker.error.connect(self.analysis_thread.quit)
         self.analysis_worker.error.connect(self.analysis_worker.deleteLater)
         self.analysis_thread.finished.connect(self.analysis_thread.deleteLater)
         
         self.analysis_thread.start()
-
-
 
     def _on_analysis_finished(self, stats, save_dir):
         """분석 완료 처리 (GUI 스레드)"""

@@ -18,3 +18,73 @@
 2026-07-23 17:12:29,738 [INFO] analysis.analyzer: FDS_Relax_Trial001 분석이 완료되었습니다.
 2026-07-23 17:12:29,977 [INFO] analysis.analyzer: FDS_Relax_Trial001 관련 그래프가 모두 저장되었습니다.
 2026-07-23 17:15:44,762 [INFO] comm.serial_manager: 시리얼 연결 해제 완료
+2026-07-23 17:24:58,087 [INFO] __main__: EMG Data Collector 시작
+2026-07-23 17:25:06,791 [INFO] comm.serial_manager: 시리얼 포트 연결 성공: COM3 @ 115200bps
+2026-07-23 17:25:07,797 [WARNING] comm.serial_manager: 디코딩 오류: 유효하지 않은 문자 수신됨
+2026-07-23 17:25:19,811 [INFO] graphs.realtime_plot: 플롯 데이터가 초기화되었습니다.
+2026-07-23 17:25:57,886 [INFO] graphs.realtime_plot: 플롯 데이터가 초기화되었습니다.
+2026-07-23 17:26:08,768 [INFO] comm.serial_manager: 시리얼 연결 해제 완료
+2026-07-23 17:26:10,894 [INFO] graphs.realtime_plot: 플롯 데이터가 초기화되었습니다.
+2026-07-23 17:26:41,519 [INFO] __main__: EMG Data Collector 시작
+2026-07-23 17:27:27,537 [INFO] __main__: EMG Data Collector 시작
+2026-07-23 17:27:29,777 [INFO] comm.serial_manager: 시리얼 포트 연결 성공: COM3 @ 115200bps
+2026-07-23 17:28:02,600 [INFO] graphs.realtime_plot: 플롯 데이터가 초기화되었습니다.
+2026-07-23 17:28:04,599 [INFO] comm.serial_manager: 시리얼 연결 해제 완료
+2026-07-23 17:28:59,480 [INFO] __main__: EMG Data Collector 시작
+2026-07-23 17:29:48,098 [ERROR] comm.serial_manager: 포트 연결 실패 (COM3): could not open port 'COM3': PermissionError(13, '액세스가 거부되었습니다.', None, 5)
+2026-07-23 17:29:55,164 [INFO] comm.serial_manager: 시리얼 포트 연결 성공: COM3 @ 115200bps
+2026-07-23 17:29:55,166 [WARNING] comm.serial_manager: 데이터 포맷 오류 (요소 개수 불일치): 3
+2026-07-23 17:29:56,168 [WARNING] comm.serial_manager: 데이터 포맷 오류 (요소 개수 불일치): 3
+2026-07-23 17:30:08,719 [INFO] comm.serial_manager: 시리얼 연결 해제 완료
+2026-07-23 17:30:20,592 [INFO] __main__: EMG Data Collector 시작
+2026-07-23 17:30:22,949 [INFO] comm.serial_manager: 시리얼 포트 연결 성공: COM3 @ 115200bps
+2026-07-23 17:30:22,951 [WARNING] comm.serial_manager: 디코딩 오류: 유효하지 않은 문자 수신됨
+2026-07-23 17:30:23,958 [WARNING] comm.serial_manager: 디코딩 오류: 유효하지 않은 문자 수신됨
+2026-07-23 17:30:38,915 [INFO] comm.serial_manager: 시리얼 연결 해제 완료
+2026-07-23 17:30:41,931 [INFO] __main__: EMG Data Collector 시작
+2026-07-23 17:30:45,645 [INFO] comm.serial_manager: 시리얼 포트 연결 성공: COM1 @ 115200bps
+2026-07-23 17:30:48,685 [INFO] comm.serial_manager: 시리얼 연결 해제 완료
+2026-07-23 17:30:52,245 [INFO] comm.serial_manager: 시리얼 포트 연결 성공: COM3 @ 115200bps
+2026-07-23 17:30:53,250 [WARNING] comm.serial_manager: 디코딩 오류: 유효하지 않은 문자 수신됨
+2026-07-23 17:31:23,892 [INFO] graphs.realtime_plot: 플롯 데이터가 초기화되었습니다.
+2026-07-23 17:31:26,516 [INFO] graphs.realtime_plot: 플롯 데이터가 초기화되었습니다.
+2026-07-23 17:31:35,203 [INFO] graphs.realtime_plot: 플롯 데이터가 초기화되었습니다.
+2026-07-23 17:31:48,517 [INFO] graphs.realtime_plot: 플롯 데이터가 초기화되었습니다.
+2026-07-23 17:31:49,966 [INFO] comm.serial_manager: 시리얼 연결 해제 완료
+2026-07-23 17:33:29,577 [INFO] __main__: EMG Data Collector 시작
+2026-07-23 17:33:31,649 [INFO] comm.serial_manager: 시리얼 포트 연결 성공: COM3 @ 115200bps
+2026-07-23 17:34:09,378 [INFO] comm.serial_manager: 시리얼 연결 해제 완료
+2026-07-23 17:34:11,521 [INFO] comm.serial_manager: 시리얼 포트 연결 성공: COM1 @ 115200bps
+2026-07-23 17:34:13,542 [INFO] comm.serial_manager: 시리얼 연결 해제 완료
+2026-07-23 17:34:14,841 [INFO] comm.serial_manager: 시리얼 포트 연결 성공: COM3 @ 115200bps
+2026-07-23 17:34:17,431 [INFO] graphs.realtime_plot: 플롯 데이터가 초기화되었습니다.
+2026-07-23 17:34:28,439 [INFO] graphs.realtime_plot: 플롯 데이터가 초기화되었습니다.
+2026-07-23 17:35:00,833 [INFO] comm.serial_manager: 시리얼 연결 해제 완료
+2026-07-23 17:36:44,739 [INFO] __main__: EMG Data Collector 시작
+2026-07-23 17:36:46,732 [INFO] comm.serial_manager: 시리얼 포트 연결 성공: COM3 @ 115200bps
+2026-07-23 17:36:47,741 [WARNING] comm.serial_manager: 디코딩 오류: 유효하지 않은 문자 수신됨
+2026-07-23 17:37:45,731 [INFO] graphs.realtime_plot: 플롯 데이터가 초기화되었습니다.
+2026-07-23 17:37:48,787 [INFO] recorder.recorder: 데이터 기록을 시작합니다: 근육=FDS, 동작=Fist, 시도=1
+2026-07-23 17:38:03,881 [INFO] recorder.recorder: 데이터 기록을 중지했습니다.
+2026-07-23 17:38:03,911 [INFO] recorder.recorder: 총 9734개의 데이터 포인트를 D:\Arduino EMG\emg data\FDS\Trial001\FDS_Fist_Trial001.csv에 저장했습니다.
+2026-07-23 17:38:03,921 [INFO] analysis.analyzer: FDS_Fist_Trial001 분석을 시작합니다.
+2026-07-23 17:38:03,928 [INFO] analysis.analyzer: FDS_Fist_Trial001 분석이 완료되었습니다.
+2026-07-23 17:38:03,939 [INFO] analysis.analyzer: 요약 파일이 저장되었습니다: D:\Arduino EMG\emg data\FDS\Trial001\FDS_Fist_Trial001_summary.txt
+2026-07-23 17:38:04,668 [INFO] analysis.analyzer: FDS_Fist_Trial001 분석을 시작합니다.
+2026-07-23 17:38:04,671 [INFO] analysis.analyzer: FDS_Fist_Trial001 분석이 완료되었습니다.
+2026-07-23 17:38:04,881 [INFO] analysis.analyzer: FDS_Fist_Trial001 관련 그래프가 모두 저장되었습니다.
+2026-07-23 17:38:13,698 [INFO] gui.dialogs: 폴더를 열었습니다: D:\Arduino EMG\emg data\FDS
+2026-07-23 17:38:46,141 [INFO] graphs.realtime_plot: 플롯 데이터가 초기화되었습니다.
+2026-07-23 17:38:49,194 [INFO] recorder.recorder: 데이터 기록을 시작합니다: 근육=FDS, 동작=Fist, 시도=2
+2026-07-23 17:39:04,287 [INFO] recorder.recorder: 데이터 기록을 중지했습니다.
+2026-07-23 17:39:04,320 [INFO] recorder.recorder: 총 9716개의 데이터 포인트를 D:\Arduino EMG\emg data\FDS\Trial002\FDS_Fist_Trial002.csv에 저장했습니다.
+2026-07-23 17:39:04,330 [INFO] analysis.analyzer: FDS_Fist_Trial002 분석을 시작합니다.
+2026-07-23 17:39:04,334 [INFO] analysis.analyzer: FDS_Fist_Trial002 분석이 완료되었습니다.
+2026-07-23 17:39:04,335 [INFO] analysis.analyzer: 요약 파일이 저장되었습니다: D:\Arduino EMG\emg data\FDS\Trial002\FDS_Fist_Trial002_summary.txt
+2026-07-23 17:39:04,922 [INFO] analysis.analyzer: FDS_Fist_Trial002 분석을 시작합니다.
+2026-07-23 17:39:04,925 [INFO] analysis.analyzer: FDS_Fist_Trial002 분석이 완료되었습니다.
+2026-07-23 17:39:05,098 [INFO] analysis.analyzer: FDS_Fist_Trial002 관련 그래프가 모두 저장되었습니다.
+2026-07-23 17:39:07,142 [INFO] gui.dialogs: 폴더를 열었습니다: D:\Arduino EMG\emg data\FDS
+2026-07-23 17:40:13,390 [INFO] graphs.realtime_plot: 플롯 데이터가 초기화되었습니다.
+2026-07-23 17:40:32,142 [INFO] graphs.realtime_plot: 플롯 데이터가 초기화되었습니다.
+2026-07-23 17:40:33,089 [INFO] comm.serial_manager: 시리얼 연결 해제 완료
