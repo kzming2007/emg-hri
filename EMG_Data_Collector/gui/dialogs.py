@@ -92,13 +92,13 @@ class CustomInputDialog(QDialog):
         layout = QVBoxLayout(self)
 
         self.input_field = QLineEdit(self)
-        self.input_field.setPlaceholderText("이름을 입력하세요")
+        self.input_field.setPlaceholderText("Enter name")
         self.input_field.textChanged.connect(self._validate_input)
         layout.addWidget(self.input_field)
 
         button_layout = QHBoxLayout()
-        self.btn_cancel = QPushButton("취소", self)
-        self.btn_ok = QPushButton("확인", self)
+        self.btn_cancel = QPushButton("Cancel", self)
+        self.btn_ok = QPushButton("OK", self)
         self.btn_ok.setObjectName("AccentButton")
         self.btn_ok.setEnabled(False) # 처음에는 비활성화 (빈 문자열 방지)
 
@@ -158,7 +158,7 @@ class RecordingCompleteDialog(QDialog):
             save_path (Path): 데이터가 저장된 디렉토리 경로.
         """
         super().__init__(parent)
-        self.setWindowTitle("기록 완료")
+        self.setWindowTitle("Recording Complete")
         self.setStyleSheet(DIALOG_STYLE)
         self.resize(450, 350)
         self.save_path = save_path
@@ -166,16 +166,16 @@ class RecordingCompleteDialog(QDialog):
         layout = QVBoxLayout(self)
 
         # 1. 요약 정보 그룹
-        summary_group = QGroupBox("요약 정보")
+        summary_group = QGroupBox("Summary")
         summary_layout = QFormLayout()
-        summary_layout.addRow("근육 (Muscle):", QLabel(muscle))
-        summary_layout.addRow("동작 (Motion):", QLabel(motion))
-        summary_layout.addRow("회차 (Trial):", QLabel(f"{trial}회"))
+        summary_layout.addRow("Muscle:", QLabel(muscle))
+        summary_layout.addRow("Motion:", QLabel(motion))
+        summary_layout.addRow("Trial:", QLabel(f"#{trial}"))
         summary_group.setLayout(summary_layout)
         layout.addWidget(summary_group)
 
         # 2. 통계 정보 그룹
-        stats_group = QGroupBox("통계 (Statistics)")
+        stats_group = QGroupBox("Statistics")
         stats_layout = QVBoxLayout()
         
         # 고정폭 폰트 설정 (통계 정렬용)
@@ -185,14 +185,14 @@ class RecordingCompleteDialog(QDialog):
         # Relax 통계 (analyzer.py는 소문자 키 사용)
         if "relax" in stats:
             relax_stats = stats["relax"]
-            relax_label = QLabel(self._format_stats("휴식 (Relax)", relax_stats))
+            relax_label = QLabel(self._format_stats("Relax", relax_stats))
             relax_label.setFont(mono_font)
             stats_layout.addWidget(relax_label)
 
         # Motion 통계
         if "motion" in stats:
             motion_stats = stats["motion"]
-            motion_label = QLabel(self._format_stats("동작 (Motion)", motion_stats))
+            motion_label = QLabel(self._format_stats("Motion", motion_stats))
             motion_label.setFont(mono_font)
             stats_layout.addWidget(motion_label)
 
@@ -200,7 +200,7 @@ class RecordingCompleteDialog(QDialog):
         layout.addWidget(stats_group)
 
         # 3. 저장 위치 및 버튼 그룹
-        path_group = QGroupBox("저장 위치")
+        path_group = QGroupBox("Save Location")
         path_layout = QVBoxLayout()
         path_label = QLabel(str(self.save_path))
         path_label.setWordWrap(True)
@@ -210,8 +210,8 @@ class RecordingCompleteDialog(QDialog):
 
         # 하단 버튼
         button_layout = QHBoxLayout()
-        self.btn_open_folder = QPushButton("폴더 열기", self)
-        self.btn_ok = QPushButton("확인", self)
+        self.btn_open_folder = QPushButton("Open Folder", self)
+        self.btn_ok = QPushButton("OK", self)
         self.btn_ok.setObjectName("AccentButton")
 
         button_layout.addStretch()

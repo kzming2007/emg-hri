@@ -13,6 +13,7 @@ class AppConfig:
     countdown_seconds: int = 3
     relax_duration: float = 5.0
     motion_duration: float = 5.0
+    transition_duration: float = 1.0
     save_dir: str = 'Data'
     plot_window_seconds: int = 5
 
@@ -22,15 +23,18 @@ MOTIONS = ['Relax', 'Fist', 'Wrist Flexion', 'Wrist Extension', 'Open Hand', 'Pi
 
 # 애플리케이션 상수
 LABEL_RELAX = 'Relax'
+LABEL_TRANSITION = 'Transition'
 APP_TITLE = 'EMG Data Collector'
-APP_VERSION = '1.0.0'
+APP_VERSION = '2.0.0'
 
 class ExperimentPhase(Enum):
     """실험 단계를 나타내는 열거형입니다."""
     IDLE = auto()
     COUNTDOWN = auto()
     RELAX_PRE = auto()
+    TRANSITION_1 = auto()
     MOTION = auto()
+    TRANSITION_2 = auto()
     RELAX_POST = auto()
     DONE = auto()
 

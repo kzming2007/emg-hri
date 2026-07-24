@@ -49,7 +49,7 @@ class SerialWorker(QObject):
                 try:
                     decoded_line = line.decode('utf-8').strip()
                 except UnicodeDecodeError:
-                    logger.warning("디코딩 오류: 유효하지 않은 문자 수신됨")
+                    logger.warning("Decode error: invalid character received")
                     continue
                 
                 if not decoded_line:
@@ -64,17 +64,17 @@ class SerialWorker(QObject):
                         envelope = int(parts[2])
                         self.data_received.emit(raw, filtered, envelope)
                     except ValueError:
-                        logger.warning(f"데이터 변환 오류 (숫자가 아님): {decoded_line}")
+                        logger.warning(f"Data conversion error (non-numeric): {decoded_line}")
                 else:
-                    logger.warning(f"데이터 포맷 오류 (요소 개수 불일치): {decoded_line}")
+                    logger.warning(f"Data format error (unexpected field count): {decoded_line}")
                     
             except serial.SerialException as e:
-                logger.error(f"시리얼 통신 오류 발생: {e}")
-                self.error_occurred.emit(f"통신이 끊어졌습니다: {e}")
+                logger.error(f"Serial communication error: {e}")
+                self.error_occurred.emit(f"Connection lost: {e}")
                 break
             except Exception as e:
-                logger.error(f"예상치 못한 오류 발생: {e}")
-                self.error_occurred.emit(f"알 수 없는 오류: {e}")
+                logger.error(f"Unexpected error: {e}")
+                self.error_occurred.emit(f"Unknown error: {e}")
                 break
 
         self.finished.emit()
@@ -148,11 +148,11 @@ class SerialManager(QObject):
             
             self._thread.start()
             self.connection_changed.emit(True)
-            logger.info(f"시리얼 포트 연결 성공: {port} @ {baud_rate}bps")
+            logger.info(f"Serial port connected: {port} @ {baud_rate}bps")
             return True
             
         except serial.SerialException as e:
-            error_msg = f"포트 연결 실패 ({port}): {e}"
+            error_msg = f"Port connection failed ({port}): {e}"
             logger.error(error_msg)
             self.error_occurred.emit(error_msg)
             self._serial = None
@@ -181,12 +181,12 @@ class SerialManager(QObject):
                 self._serial.reset_input_buffer()
                 self._serial.reset_output_buffer()
             except Exception as e:
-                logger.warning(f"버퍼 비우기 실패: {e}")
+                logger.warning(f"Failed to flush buffers: {e}")
                 
             self._serial.close()
             self._serial = None
             self.connection_changed.emit(False)
-            logger.info("시리얼 연결 해제 완료")
+            logger.info("Serial connection closed")
 
     def is_connected(self) -> bool:
         """
@@ -205,6 +205,6 @@ class SerialManager(QObject):
         Args:
             error_msg (str): 발생한 에러 메시지
         """
-        logger.error(f"워커 스레드 에러 감지: {error_msg}")
+        logger.error(f"Worker thread error detected: {error_msg}")
         self.error_occurred.emit(error_msg)
         self.disconnect()

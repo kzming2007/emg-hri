@@ -79,8 +79,8 @@ class RealtimePlot(QWidget):
         """pyqtgraph 플롯을 설정합니다."""
         self.plot_widget.setBackground('#1e1e2e')  # 어두운 배경색 설정
         self.plot_widget.showGrid(x=True, y=True, alpha=0.3)  # 은은한 그리드
-        self.plot_widget.setLabel('bottom', '시간 (초)')
-        self.plot_widget.setLabel('left', '진폭')
+        self.plot_widget.setLabel('bottom', 'Time (s)')
+        self.plot_widget.setLabel('left', 'Amplitude')
         self.plot_widget.setAntialiasing(True)  # 안티앨리어싱 활성화
         
         # 성능 최적화 설정
@@ -158,7 +158,7 @@ class RealtimePlot(QWidget):
         elif channel == 'envelope':
             self.curve_envelope.setVisible(visible)
         else:
-            logger.warning(f"알 수 없는 채널입니다: {channel}")
+            logger.warning(f"Unknown channel: {channel}")
             
     def clear(self) -> None:
         """모든 데이터와 차트를 초기화합니다."""
@@ -171,4 +171,4 @@ class RealtimePlot(QWidget):
         self.curve_raw.setData([], [])
         self.curve_filtered.setData([], [])
         self.curve_envelope.setData([], [])
-        logger.info("플롯 데이터가 초기화되었습니다.")
+        logger.info("Plot data cleared.")

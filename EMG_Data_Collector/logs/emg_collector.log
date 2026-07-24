@@ -88,3 +88,99 @@
 2026-07-23 17:40:13,390 [INFO] graphs.realtime_plot: 플롯 데이터가 초기화되었습니다.
 2026-07-23 17:40:32,142 [INFO] graphs.realtime_plot: 플롯 데이터가 초기화되었습니다.
 2026-07-23 17:40:33,089 [INFO] comm.serial_manager: 시리얼 연결 해제 완료
+2026-07-24 11:03:22,539 [INFO] __main__: EMG Data Collector 시작
+2026-07-24 11:03:44,377 [INFO] comm.serial_manager: Serial port connected: COM3 @ 115200bps
+2026-07-24 11:04:43,177 [INFO] graphs.realtime_plot: Plot data cleared.
+2026-07-24 11:04:46,237 [INFO] recorder.recorder: 데이터 기록을 시작합니다: 근육=FDS, 동작=Fist, 시도=2
+2026-07-24 11:05:01,330 [INFO] recorder.recorder: 데이터 기록을 중지했습니다.
+2026-07-24 11:05:01,361 [INFO] recorder.recorder: 총 10510개의 데이터 포인트를 D:\Arduino EMG\emg data\FDS\Trial002\FDS_Fist_Trial002.csv에 저장했습니다.
+2026-07-24 11:05:01,372 [INFO] analysis.analyzer: FDS_Fist_Trial002 analysis started.
+2026-07-24 11:05:01,376 [INFO] analysis.analyzer: FDS_Fist_Trial002 analysis completed.
+2026-07-24 11:05:01,384 [INFO] analysis.analyzer: Summary file saved: D:\Arduino EMG\emg data\FDS\Trial002\FDS_Fist_Trial002_summary.txt
+2026-07-24 11:05:01,763 [INFO] analysis.analyzer: FDS_Fist_Trial002 analysis started.
+2026-07-24 11:05:01,766 [INFO] analysis.analyzer: FDS_Fist_Trial002 analysis completed.
+2026-07-24 11:05:01,903 [INFO] analysis.analyzer: FDS_Fist_Trial002 graphs saved successfully.
+2026-07-24 11:05:05,939 [INFO] gui.dialogs: 폴더를 열었습니다: D:\Arduino EMG\emg data\FDS
+2026-07-24 11:05:34,305 [INFO] graphs.realtime_plot: Plot data cleared.
+2026-07-24 11:05:40,018 [INFO] graphs.realtime_plot: Plot data cleared.
+2026-07-24 11:05:42,468 [INFO] comm.serial_manager: Serial connection closed
+2026-07-24 11:19:33,922 [INFO] __main__: EMG Data Collector 시작
+2026-07-24 11:19:40,147 [INFO] comm.serial_manager: Serial port connected: COM3 @ 115200bps
+2026-07-24 11:20:23,207 [INFO] graphs.realtime_plot: Plot data cleared.
+2026-07-24 11:20:26,268 [INFO] recorder.recorder: 데이터 기록을 시작합니다: 근육=FDS, 동작=Fist, 시도=1
+2026-07-24 11:20:43,549 [INFO] recorder.recorder: 데이터 기록을 중지했습니다.
+2026-07-24 11:20:43,577 [INFO] recorder.recorder: 총 11977개의 데이터 포인트를 D:\Antigravity_codings\emg\data\FDS\Trial001\FDS_Fist_Trial001.csv에 저장했습니다.
+2026-07-24 11:20:43,589 [INFO] analysis.analyzer: FDS_Fist_Trial001 analysis started.
+2026-07-24 11:20:43,613 [INFO] analysis.analyzer: FDS_Fist_Trial001 analysis completed.
+2026-07-24 11:20:43,615 [INFO] analysis.analyzer: Summary file saved: D:\Antigravity_codings\emg\data\FDS\Trial001\FDS_Fist_Trial001_summary.txt
+2026-07-24 11:20:44,475 [INFO] analysis.analyzer: FDS_Fist_Trial001 analysis started.
+2026-07-24 11:20:44,481 [INFO] analysis.analyzer: FDS_Fist_Trial001 analysis completed.
+2026-07-24 11:20:44,738 [INFO] analysis.analyzer: FDS_Fist_Trial001 graphs saved successfully.
+2026-07-24 11:20:44,758 [INFO] MultiTrialAnalyzer: Loaded trial 1 for motion Fist from FDS_Fist_Trial001.csv
+2026-07-24 11:20:49,675 [INFO] graphs.realtime_plot: Plot data cleared.
+2026-07-24 11:20:52,736 [INFO] recorder.recorder: 데이터 기록을 시작합니다: 근육=FDS, 동작=Fist, 시도=2
+2026-07-24 11:21:10,020 [INFO] recorder.recorder: 데이터 기록을 중지했습니다.
+2026-07-24 11:21:10,047 [INFO] recorder.recorder: 총 11983개의 데이터 포인트를 D:\Antigravity_codings\emg\data\FDS\Trial002\FDS_Fist_Trial002.csv에 저장했습니다.
+2026-07-24 11:21:10,059 [INFO] analysis.analyzer: FDS_Fist_Trial002 analysis started.
+2026-07-24 11:21:10,072 [INFO] analysis.analyzer: FDS_Fist_Trial002 analysis completed.
+2026-07-24 11:21:10,074 [INFO] analysis.analyzer: Summary file saved: D:\Antigravity_codings\emg\data\FDS\Trial002\FDS_Fist_Trial002_summary.txt
+2026-07-24 11:21:10,414 [INFO] analysis.analyzer: FDS_Fist_Trial002 analysis started.
+2026-07-24 11:21:10,419 [INFO] analysis.analyzer: FDS_Fist_Trial002 analysis completed.
+2026-07-24 11:21:10,635 [INFO] analysis.analyzer: FDS_Fist_Trial002 graphs saved successfully.
+2026-07-24 11:21:10,644 [INFO] MultiTrialAnalyzer: Loaded trial 1 for motion Fist from FDS_Fist_Trial001.csv
+2026-07-24 11:21:10,652 [INFO] MultiTrialAnalyzer: Loaded trial 2 for motion Fist from FDS_Fist_Trial002.csv
+2026-07-24 11:21:14,252 [INFO] gui.dialogs: 폴더를 열었습니다: D:\Antigravity_codings\emg\data\FDS
+2026-07-24 11:21:43,669 [INFO] graphs.realtime_plot: Plot data cleared.
+2026-07-24 11:21:46,723 [INFO] recorder.recorder: 데이터 기록을 시작합니다: 근육=FDS, 동작=Fist, 시도=3
+2026-07-24 11:22:04,004 [INFO] recorder.recorder: 데이터 기록을 중지했습니다.
+2026-07-24 11:22:04,031 [INFO] recorder.recorder: 총 12004개의 데이터 포인트를 D:\Antigravity_codings\emg\data\FDS\Trial003\FDS_Fist_Trial003.csv에 저장했습니다.
+2026-07-24 11:22:04,043 [INFO] analysis.analyzer: FDS_Fist_Trial003 analysis started.
+2026-07-24 11:22:04,064 [INFO] analysis.analyzer: FDS_Fist_Trial003 analysis completed.
+2026-07-24 11:22:04,065 [INFO] analysis.analyzer: Summary file saved: D:\Antigravity_codings\emg\data\FDS\Trial003\FDS_Fist_Trial003_summary.txt
+2026-07-24 11:22:04,403 [INFO] analysis.analyzer: FDS_Fist_Trial003 analysis started.
+2026-07-24 11:22:04,409 [INFO] analysis.analyzer: FDS_Fist_Trial003 analysis completed.
+2026-07-24 11:22:04,603 [INFO] analysis.analyzer: FDS_Fist_Trial003 graphs saved successfully.
+2026-07-24 11:22:04,610 [INFO] MultiTrialAnalyzer: Loaded trial 1 for motion Fist from FDS_Fist_Trial001.csv
+2026-07-24 11:22:04,617 [INFO] MultiTrialAnalyzer: Loaded trial 2 for motion Fist from FDS_Fist_Trial002.csv
+2026-07-24 11:22:04,623 [INFO] MultiTrialAnalyzer: Loaded trial 3 for motion Fist from FDS_Fist_Trial003.csv
+2026-07-24 11:22:09,069 [INFO] graphs.realtime_plot: Plot data cleared.
+2026-07-24 11:22:12,130 [INFO] recorder.recorder: 데이터 기록을 시작합니다: 근육=FDS, 동작=Fist, 시도=4
+2026-07-24 11:22:29,408 [INFO] recorder.recorder: 데이터 기록을 중지했습니다.
+2026-07-24 11:22:29,435 [INFO] recorder.recorder: 총 12000개의 데이터 포인트를 D:\Antigravity_codings\emg\data\FDS\Trial004\FDS_Fist_Trial004.csv에 저장했습니다.
+2026-07-24 11:22:29,448 [INFO] analysis.analyzer: FDS_Fist_Trial004 analysis started.
+2026-07-24 11:22:29,472 [INFO] analysis.analyzer: FDS_Fist_Trial004 analysis completed.
+2026-07-24 11:22:29,473 [INFO] analysis.analyzer: Summary file saved: D:\Antigravity_codings\emg\data\FDS\Trial004\FDS_Fist_Trial004_summary.txt
+2026-07-24 11:22:29,811 [INFO] analysis.analyzer: FDS_Fist_Trial004 analysis started.
+2026-07-24 11:22:29,816 [INFO] analysis.analyzer: FDS_Fist_Trial004 analysis completed.
+2026-07-24 11:22:30,030 [INFO] analysis.analyzer: FDS_Fist_Trial004 graphs saved successfully.
+2026-07-24 11:22:30,037 [INFO] MultiTrialAnalyzer: Loaded trial 1 for motion Fist from FDS_Fist_Trial001.csv
+2026-07-24 11:22:30,044 [INFO] MultiTrialAnalyzer: Loaded trial 2 for motion Fist from FDS_Fist_Trial002.csv
+2026-07-24 11:22:30,050 [INFO] MultiTrialAnalyzer: Loaded trial 3 for motion Fist from FDS_Fist_Trial003.csv
+2026-07-24 11:22:30,056 [INFO] MultiTrialAnalyzer: Loaded trial 4 for motion Fist from FDS_Fist_Trial004.csv
+2026-07-24 11:22:34,677 [INFO] graphs.realtime_plot: Plot data cleared.
+2026-07-24 11:22:37,737 [INFO] recorder.recorder: 데이터 기록을 시작합니다: 근육=FDS, 동작=Fist, 시도=5
+2026-07-24 11:22:55,018 [INFO] recorder.recorder: 데이터 기록을 중지했습니다.
+2026-07-24 11:22:55,045 [INFO] recorder.recorder: 총 11969개의 데이터 포인트를 D:\Antigravity_codings\emg\data\FDS\Trial005\FDS_Fist_Trial005.csv에 저장했습니다.
+2026-07-24 11:22:55,058 [INFO] analysis.analyzer: FDS_Fist_Trial005 analysis started.
+2026-07-24 11:22:55,079 [INFO] analysis.analyzer: FDS_Fist_Trial005 analysis completed.
+2026-07-24 11:22:55,080 [INFO] analysis.analyzer: Summary file saved: D:\Antigravity_codings\emg\data\FDS\Trial005\FDS_Fist_Trial005_summary.txt
+2026-07-24 11:22:55,436 [INFO] analysis.analyzer: FDS_Fist_Trial005 analysis started.
+2026-07-24 11:22:55,451 [INFO] analysis.analyzer: FDS_Fist_Trial005 analysis completed.
+2026-07-24 11:22:55,659 [INFO] analysis.analyzer: FDS_Fist_Trial005 graphs saved successfully.
+2026-07-24 11:22:55,667 [INFO] MultiTrialAnalyzer: Loaded trial 1 for motion Fist from FDS_Fist_Trial001.csv
+2026-07-24 11:22:55,673 [INFO] MultiTrialAnalyzer: Loaded trial 2 for motion Fist from FDS_Fist_Trial002.csv
+2026-07-24 11:22:55,679 [INFO] MultiTrialAnalyzer: Loaded trial 3 for motion Fist from FDS_Fist_Trial003.csv
+2026-07-24 11:22:55,686 [INFO] MultiTrialAnalyzer: Loaded trial 4 for motion Fist from FDS_Fist_Trial004.csv
+2026-07-24 11:22:55,693 [INFO] MultiTrialAnalyzer: Loaded trial 5 for motion Fist from FDS_Fist_Trial005.csv
+2026-07-24 11:22:59,343 [INFO] gui.dialogs: 폴더를 열었습니다: D:\Antigravity_codings\emg\data\FDS
+2026-07-24 11:23:09,401 [INFO] MultiTrialAnalyzer: Loaded trial 1 for motion Fist from FDS_Fist_Trial001.csv
+2026-07-24 11:23:09,408 [INFO] MultiTrialAnalyzer: Loaded trial 2 for motion Fist from FDS_Fist_Trial002.csv
+2026-07-24 11:23:09,425 [INFO] MultiTrialAnalyzer: Loaded trial 3 for motion Fist from FDS_Fist_Trial003.csv
+2026-07-24 11:23:09,430 [INFO] MultiTrialAnalyzer: Loaded trial 4 for motion Fist from FDS_Fist_Trial004.csv
+2026-07-24 11:23:09,437 [INFO] MultiTrialAnalyzer: Loaded trial 5 for motion Fist from FDS_Fist_Trial005.csv
+2026-07-24 11:23:09,571 [INFO] MultiTrialAnalyzer: Merged dataset saved to D:\Antigravity_codings\emg\data\FDS\FDS_dataset.csv
+2026-07-24 11:23:09,858 [INFO] MultiTrialAnalyzer: Comparison graph saved to D:\Antigravity_codings\emg\data\FDS\FDS_comparison.png
+2026-07-24 11:23:10,202 [INFO] MultiTrialAnalyzer: Trend graph saved to D:\Antigravity_codings\emg\data\FDS\FDS_trends.png
+2026-07-24 11:23:10,263 [INFO] MultiTrialAnalyzer: ML features dataset saved to D:\Antigravity_codings\emg\data\FDS\FDS_ml_features.csv
+2026-07-24 11:23:10,264 [INFO] MultiTrialAnalyzer: Summary report saved to D:\Antigravity_codings\emg\data\FDS\FDS_report.txt
+2026-07-24 11:23:47,442 [INFO] comm.serial_manager: Serial connection closed

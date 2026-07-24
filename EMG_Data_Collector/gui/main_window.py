@@ -1,8 +1,6 @@
 import sys
 import os
 import logging
-import threading
-import importlib
 from pathlib import Path
 from PySide6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
                                 QLabel, QComboBox, QPushButton, QSpinBox,
@@ -14,12 +12,13 @@ from PySide6.QtGui import QFont, QColor
 # Add project root to path for imports
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from utils.config import AppConfig, MUSCLES, MOTIONS, LABEL_RELAX, APP_TITLE, ExperimentPhase
+from utils.config import AppConfig, MUSCLES, MOTIONS, LABEL_RELAX, LABEL_TRANSITION, APP_TITLE, ExperimentPhase
 from utils.timer import ExperimentTimer
 from graphs.realtime_plot import RealtimePlot
 from gui.dialogs import CustomInputDialog, RecordingCompleteDialog
 from recorder.recorder import DataRecorder
 from analysis.analyzer import EMGAnalyzer
+from analysis.multi_trial_analyzer import MultiTrialAnalyzer
 
 from comm.serial_manager import SerialManager
 
@@ -46,6 +45,29 @@ class AnalysisWorker(QObject):
             self.finished.emit(stats, self.save_dir)
         except Exception as e:
             logging.error(f"분석 중 오류 발생: {e}")
+            self.error.emit(str(e))
+
+
+class ReportWorker(QObject):
+    """백그라운드에서 Multi-Trial Report를 생성하기 위한 워커 클래스"""
+    finished = Signal(list)
+    error = Signal(str)
+
+    def __init__(self, muscle, base_dir):
+        super().__init__()
+        self.muscle = muscle
+        self.base_dir = base_dir
+
+    def run(self):
+        try:
+            mta = MultiTrialAnalyzer(self.muscle, self.base_dir)
+            if mta.get_trial_count() == 0:
+                self.error.emit("No trials found to generate report.")
+                return
+            result_paths = mta.run_all()
+            self.finished.emit(list(result_paths.values()))
+        except Exception as e:
+            logging.error(f"Report 생성 중 오류 발생: {e}")
             self.error.emit(str(e))
 
 
@@ -103,7 +125,7 @@ class MainWindow(QMainWindow):
         left_layout.setSpacing(15)
 
         # 1. Connection Section
-        conn_group = QGroupBox("연결 설정")
+        conn_group = QGroupBox("Connection")
         conn_layout = QVBoxLayout()
         
         port_layout = QHBoxLayout()
@@ -118,7 +140,7 @@ class MainWindow(QMainWindow):
         port_layout.addWidget(self.port_combo)
         port_layout.addWidget(self.refresh_btn)
         
-        self.connect_btn = QPushButton("연결")
+        self.connect_btn = QPushButton("Connect")
         self.connect_btn.clicked.connect(self._on_connect_clicked)
         
         conn_layout.addLayout(port_layout)
@@ -126,7 +148,7 @@ class MainWindow(QMainWindow):
         conn_group.setLayout(conn_layout)
 
         # 2. Experiment Section
-        exp_group = QGroupBox("실험 설정")
+        exp_group = QGroupBox("Experiment")
         exp_layout = QVBoxLayout()
         
         self.muscle_combo = QComboBox()
@@ -144,36 +166,36 @@ class MainWindow(QMainWindow):
         save_layout = QHBoxLayout()
         self.save_dir_edit = QLineEdit(str(self.config.save_dir))
         self.save_dir_edit.setReadOnly(True)
-        self.browse_btn = QPushButton("찾아보기")
+        self.browse_btn = QPushButton("Browse")
         self.browse_btn.clicked.connect(self._browse_save_dir)
         save_layout.addWidget(self.save_dir_edit)
         save_layout.addWidget(self.browse_btn)
 
-        exp_layout.addWidget(QLabel("근육 (Muscle):"))
+        exp_layout.addWidget(QLabel("Muscle:"))
         exp_layout.addWidget(self.muscle_combo)
-        exp_layout.addWidget(QLabel("동작 (Motion):"))
+        exp_layout.addWidget(QLabel("Motion:"))
         exp_layout.addWidget(self.motion_combo)
-        exp_layout.addWidget(QLabel("시도 횟수 (Trial):"))
+        exp_layout.addWidget(QLabel("Trial:"))
         exp_layout.addWidget(self.trial_spin)
-        exp_layout.addWidget(QLabel("저장 경로:"))
+        exp_layout.addWidget(QLabel("Save Path:"))
         exp_layout.addLayout(save_layout)
         exp_group.setLayout(exp_layout)
 
         # 3. Control Section
-        ctrl_group = QGroupBox("제어")
+        ctrl_group = QGroupBox("Control")
         ctrl_layout = QVBoxLayout()
         
-        self.start_btn = QPushButton("기록 시작")
+        self.start_btn = QPushButton("Start Recording")
         self.start_btn.setObjectName("startBtn")
         self.start_btn.setMinimumHeight(40)
         self.start_btn.clicked.connect(self._on_start_recording)
         
-        self.stop_btn = QPushButton("기록 중지")
+        self.stop_btn = QPushButton("Stop Recording")
         self.stop_btn.setObjectName("stopBtn")
         self.stop_btn.setMinimumHeight(40)
         self.stop_btn.clicked.connect(self._on_stop_recording)
         
-        self.reset_btn = QPushButton("초기화")
+        self.reset_btn = QPushButton("Reset")
         self.reset_btn.setMinimumHeight(30)
         self.reset_btn.clicked.connect(self._on_reset)
         
@@ -182,9 +204,27 @@ class MainWindow(QMainWindow):
         ctrl_layout.addWidget(self.reset_btn)
         ctrl_group.setLayout(ctrl_layout)
 
+        # 4. Multi-Trial Report Section
+        report_group = QGroupBox("Report")
+        report_layout = QVBoxLayout()
+
+        self.report_btn = QPushButton("Generate Multi-Trial Report")
+        self.report_btn.setObjectName("reportBtn")
+        self.report_btn.setMinimumHeight(35)
+        self.report_btn.clicked.connect(self._on_generate_report)
+        self.report_btn.setEnabled(False)
+
+        self.trial_progress_label = QLabel("No trials recorded yet")
+        self.trial_progress_label.setStyleSheet("color: #999; font-size: 11px;")
+
+        report_layout.addWidget(self.report_btn)
+        report_layout.addWidget(self.trial_progress_label)
+        report_group.setLayout(report_layout)
+
         left_layout.addWidget(conn_group)
         left_layout.addWidget(exp_group)
         left_layout.addWidget(ctrl_group)
+        left_layout.addWidget(report_group)
         left_layout.addStretch()
 
         # Center/Right Area
@@ -198,7 +238,7 @@ class MainWindow(QMainWindow):
         self.phase_frame.setFixedHeight(120)
         phase_layout = QVBoxLayout(self.phase_frame)
         
-        self.phase_label = QLabel("준비")
+        self.phase_label = QLabel("Ready")
         self.phase_label.setAlignment(Qt.AlignCenter)
         font = QFont()
         font.setPointSize(48)
@@ -228,9 +268,9 @@ class MainWindow(QMainWindow):
         self.status_bar = QStatusBar()
         self.setStatusBar(self.status_bar)
         
-        self.status_conn_indicator = QLabel("● 분리됨")
+        self.status_conn_indicator = QLabel("● Disconnected")
         self.status_conn_indicator.setStyleSheet("color: #e05252;")
-        self.status_rate_label = QLabel("0 샘플/초")
+        self.status_rate_label = QLabel("0 samples/s")
         
         self.status_bar.addWidget(self.status_conn_indicator)
         self.status_bar.addPermanentWidget(self.status_rate_label)
@@ -302,6 +342,15 @@ class MainWindow(QMainWindow):
         QPushButton#stopBtn:hover {
             background-color: #6a3b3b;
         }
+        QPushButton#reportBtn {
+            background-color: #2b3a5a;
+            border: 1px solid #4a9eff;
+            color: #4a9eff;
+            font-weight: bold;
+        }
+        QPushButton#reportBtn:hover {
+            background-color: #3b4a6a;
+        }
         QFrame#phaseFrame {
             background-color: #2b2d30;
             border-radius: 8px;
@@ -319,7 +368,7 @@ class MainWindow(QMainWindow):
         if self.current_state == self.STATE_DISCONNECTED:
             self.port_combo.setEnabled(True)
             self.refresh_btn.setEnabled(True)
-            self.connect_btn.setText("연결")
+            self.connect_btn.setText("Connect")
             self.connect_btn.setStyleSheet("")
             
             self.muscle_combo.setEnabled(False)
@@ -334,7 +383,7 @@ class MainWindow(QMainWindow):
         elif self.current_state == self.STATE_CONNECTED:
             self.port_combo.setEnabled(False)
             self.refresh_btn.setEnabled(False)
-            self.connect_btn.setText("연결 해제")
+            self.connect_btn.setText("Disconnect")
             self.connect_btn.setStyleSheet("color: #e05252;")
             
             self.muscle_combo.setEnabled(True)
@@ -376,11 +425,11 @@ class MainWindow(QMainWindow):
             if current_port in ports:
                 self.port_combo.setCurrentText(current_port)
         else:
-            self.port_combo.addItem("포트 없음")
+            self.port_combo.addItem("No ports found")
 
     def _browse_save_dir(self):
         """저장 경로 선택 다이얼로그"""
-        dir_path = QFileDialog.getExistingDirectory(self, "저장 경로 선택", self.save_dir_edit.text())
+        dir_path = QFileDialog.getExistingDirectory(self, "Select Save Directory", self.save_dir_edit.text())
         if dir_path:
             self.save_dir_edit.setText(dir_path)
             self.config.save_dir = Path(dir_path)
@@ -390,7 +439,7 @@ class MainWindow(QMainWindow):
         """연결/연결해제 버튼 클릭 처리"""
         if self.current_state == self.STATE_DISCONNECTED:
             port = self.port_combo.currentText()
-            if port and port != "포트 없음":
+            if port and port != "No ports found":
                 self.serial_manager.connect(port)
         else:
             self.serial_manager.disconnect()
@@ -400,22 +449,22 @@ class MainWindow(QMainWindow):
         """시리얼 연결 상태 변경 처리"""
         if connected:
             self.current_state = self.STATE_CONNECTED
-            self.status_conn_indicator.setText("● 연결됨")
+            self.status_conn_indicator.setText("● Connected")
             self.status_conn_indicator.setStyleSheet("color: #4ec54e;")
-            self.status_bar.showMessage("기기에 연결되었습니다.", 3000)
+            self.status_bar.showMessage("Device connected.", 3000)
         else:
             self.current_state = self.STATE_DISCONNECTED
-            self.status_conn_indicator.setText("● 분리됨")
+            self.status_conn_indicator.setText("● Disconnected")
             self.status_conn_indicator.setStyleSheet("color: #e05252;")
-            self.status_bar.showMessage("기기와 연결이 해제되었습니다.", 3000)
+            self.status_bar.showMessage("Device disconnected.", 3000)
             self.connect_btn.setEnabled(True)
         self._update_ui_state()
 
     @Slot(str)
     def _on_error(self, message):
         """에러 메시지 처리"""
-        QMessageBox.critical(self, "오류", message)
-        self.status_bar.showMessage(f"오류: {message}")
+        QMessageBox.critical(self, "Error", message)
+        self.status_bar.showMessage(f"Error: {message}")
 
     @Slot()
     def _on_start_recording(self):
@@ -426,7 +475,7 @@ class MainWindow(QMainWindow):
         save_dir = Path(self.save_dir_edit.text())
         
         if muscle == 'Custom' or motion == 'Custom':
-            QMessageBox.warning(self, "경고", "Custom 이름을 입력하세요.")
+            QMessageBox.warning(self, "Warning", "Please enter a custom name first.")
             return
 
         # Initialize recorder (RELAX_PRE에서 실제 기록 시작)
@@ -453,7 +502,7 @@ class MainWindow(QMainWindow):
         self.plot_widget.clear()
         if self.recorder:
             self.recorder.reset()
-        self.phase_label.setText("준비")
+        self.phase_label.setText("Ready")
         self.countdown_label.setText("")
         self.phase_frame.setStyleSheet("QFrame#phaseFrame { background-color: #2b2d30; }")
 
@@ -461,7 +510,7 @@ class MainWindow(QMainWindow):
     def _on_muscle_changed(self, text):
         """근육 선택 변경 시 Custom 처리"""
         if text == "Custom":
-            custom_name = CustomInputDialog.get_text("사용자 지정 근육 입력", self)
+            custom_name = CustomInputDialog.get_text("Enter Custom Muscle Name", self)
             if custom_name:
                 idx = self.muscle_combo.count() - 1
                 self.muscle_combo.insertItem(idx, custom_name)
@@ -473,7 +522,7 @@ class MainWindow(QMainWindow):
     def _on_motion_changed(self, text):
         """동작 선택 변경 시 Custom 처리"""
         if text == "Custom":
-            custom_name = CustomInputDialog.get_text("사용자 지정 동작 입력", self)
+            custom_name = CustomInputDialog.get_text("Enter Custom Motion Name", self)
             if custom_name:
                 idx = self.motion_combo.count() - 1
                 self.motion_combo.insertItem(idx, custom_name)
@@ -498,7 +547,7 @@ class MainWindow(QMainWindow):
         """초당 데이터 수신율 업데이트"""
         self.current_rate = self.sample_count
         self.sample_count = 0
-        self.status_rate_label.setText(f"{self.current_rate} 샘플/초")
+        self.status_rate_label.setText(f"{self.current_rate} samples/s")
 
     @Slot(str, str)
     def _on_phase_changed(self, phase_name, label):
@@ -509,12 +558,14 @@ class MainWindow(QMainWindow):
         # Update recorder label
         if self.recorder:
             if phase_name == ExperimentPhase.COUNTDOWN.name:
-                pass  # 카운트다운 동안은 기록하지 않음
+                pass  # Don't record during countdown
             elif phase_name == ExperimentPhase.RELAX_PRE.name:
-                # RELAX_PRE 단계에서 실제 데이터 기록 시작
+                # Start actual data recording at RELAX_PRE
                 self.recorder.start_recording()
                 self._recording_active = True
                 self.recorder.set_label(label)
+            elif phase_name in (ExperimentPhase.TRANSITION_1.name, ExperimentPhase.TRANSITION_2.name):
+                self.recorder.set_label(LABEL_TRANSITION)
             else:
                 self.recorder.set_label(label)
                 
@@ -523,14 +574,17 @@ class MainWindow(QMainWindow):
         bg_color = "#2b2d30"
         
         if phase_name == ExperimentPhase.COUNTDOWN.name:
-            display_text = "준비 (카운트다운)"
-            bg_color = "#8a6d2b" # 황색
+            display_text = "Get Ready"
+            bg_color = "#8a6d2b"
         elif phase_name == ExperimentPhase.RELAX_PRE.name or phase_name == ExperimentPhase.RELAX_POST.name:
-            display_text = f"이완: {label}"
-            bg_color = "#2b5a3a" # 녹색
+            display_text = "Relax"
+            bg_color = "#2b5a3a"
+        elif phase_name == ExperimentPhase.TRANSITION_1.name or phase_name == ExperimentPhase.TRANSITION_2.name:
+            display_text = "Transition"
+            bg_color = "#5a5a2b"
         elif phase_name == ExperimentPhase.MOTION.name:
-            display_text = f"동작: {label}"
-            bg_color = "#6a2b2b" # 붉은색
+            display_text = f"{label}"
+            bg_color = "#6a2b2b"
             
         self.phase_label.setText(display_text)
         self.phase_frame.setStyleSheet(f"QFrame#phaseFrame {{ background-color: {bg_color}; border-radius: 8px; border: 2px solid #3d3f43; }}")
@@ -538,7 +592,7 @@ class MainWindow(QMainWindow):
     @Slot(float)
     def _on_countdown_tick(self, remaining):
         """카운트다운 틱 업데이트"""
-        self.countdown_label.setText(f"{remaining:.1f}초")
+        self.countdown_label.setText(f"{remaining:.1f}s")
 
     @Slot()
     def _on_experiment_finished(self):
@@ -548,7 +602,7 @@ class MainWindow(QMainWindow):
             
         self.current_state = self.STATE_ANALYZING
         self._update_ui_state()
-        self.phase_label.setText("분석 중...")
+        self.phase_label.setText("Analyzing...")
         self.countdown_label.setText("")
         self.phase_frame.setStyleSheet("QFrame#phaseFrame { background-color: #2b4a5a; border-radius: 8px; }")
         
@@ -587,12 +641,15 @@ class MainWindow(QMainWindow):
         
         self.current_state = self.STATE_CONNECTED
         self._update_ui_state()
-        self.phase_label.setText("실험 완료")
+        self.phase_label.setText("Complete")
         self.phase_frame.setStyleSheet("QFrame#phaseFrame { background-color: #2b2d30; }")
         
         # Auto-increment trial
         self.trial_spin.setValue(trial + 1)
-        
+
+        # Update trial progress
+        self._update_trial_progress()
+
         # Show results
         dialog = RecordingCompleteDialog(self, muscle, motion, trial, stats, save_dir)
         dialog.exec()
@@ -601,8 +658,81 @@ class MainWindow(QMainWindow):
         """분석 오류 처리 (GUI 스레드)"""
         self.current_state = self.STATE_CONNECTED
         self._update_ui_state()
-        self.phase_label.setText("분석 오류")
-        QMessageBox.critical(self, "분석 오류", f"데이터 분석 중 오류가 발생했습니다:\n{err_msg}")
+        self.phase_label.setText("Analysis Error")
+        QMessageBox.critical(self, "Analysis Error", f"An error occurred during data analysis:\n{err_msg}")
+
+    def _update_trial_progress(self):
+        """Trial 진행 현황을 업데이트하고 Report 버튼 활성화 여부를 결정합니다."""
+        muscle = self.muscle_combo.currentText()
+        if muscle == 'Custom':
+            return
+
+        save_dir = Path(self.save_dir_edit.text())
+        try:
+            mta = MultiTrialAnalyzer(muscle, save_dir)
+            count = mta.get_trial_count()
+            motions = mta.get_available_motions()
+
+            if count > 0:
+                motion_str = ", ".join(motions) if motions else "N/A"
+                self.trial_progress_label.setText(
+                    f"{count} trial(s) found | Motions: {motion_str}"
+                )
+                self.trial_progress_label.setStyleSheet("color: #4ec54e; font-size: 11px;")
+                self.report_btn.setEnabled(True)
+            else:
+                self.trial_progress_label.setText("No trials recorded yet")
+                self.trial_progress_label.setStyleSheet("color: #999; font-size: 11px;")
+                self.report_btn.setEnabled(False)
+        except Exception as e:
+            logging.warning(f"Failed to update trial progress: {e}")
+
+    @Slot()
+    def _on_generate_report(self):
+        """Multi-Trial Report 생성 (백그라운드 QThread)"""
+        muscle = self.muscle_combo.currentText()
+        save_dir = Path(self.save_dir_edit.text())
+
+        self.report_btn.setEnabled(False)
+        self.report_btn.setText("Generating...")
+        self.status_bar.showMessage("Generating multi-trial report...", 0)
+
+        # Report를 백그라운드에서 생성
+        self.report_thread = QThread()
+        self.report_worker = ReportWorker(muscle, save_dir)
+        self.report_worker.moveToThread(self.report_thread)
+
+        self.report_thread.started.connect(self.report_worker.run)
+        self.report_worker.finished.connect(self._on_report_finished)
+        self.report_worker.error.connect(self._on_report_error)
+
+        self.report_worker.finished.connect(self.report_thread.quit)
+        self.report_worker.finished.connect(self.report_worker.deleteLater)
+        self.report_worker.error.connect(self.report_thread.quit)
+        self.report_worker.error.connect(self.report_worker.deleteLater)
+        self.report_thread.finished.connect(self.report_thread.deleteLater)
+
+        self.report_thread.start()
+
+    def _on_report_finished(self, result_paths):
+        """Report 생성 완료 처리"""
+        self.report_btn.setText("Generate Multi-Trial Report")
+        self.report_btn.setEnabled(True)
+
+        file_list = "\n".join([f"  • {p}" for p in result_paths])
+        self.status_bar.showMessage("Multi-trial report generated successfully!", 5000)
+        QMessageBox.information(
+            self,
+            "Report Generated",
+            f"Multi-trial report generated successfully!\n\nFiles created:\n{file_list}"
+        )
+
+    def _on_report_error(self, err_msg):
+        """Report 생성 오류 처리"""
+        self.report_btn.setText("Generate Multi-Trial Report")
+        self.report_btn.setEnabled(True)
+        self.status_bar.showMessage("Report generation failed.", 5000)
+        QMessageBox.critical(self, "Report Error", f"Failed to generate report:\n{err_msg}")
 
     def closeEvent(self, event):
         """창 닫기 이벤트 처리"""
